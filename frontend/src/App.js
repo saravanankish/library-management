@@ -1,6 +1,7 @@
 import './App.css';
 import Login from './components/Login/Login';
-import SingUp from './components/Signup/Signup';
+import SignUp from './components/Signup/Signup';
+import UserScreen from './components/User/UserScreen';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 function App() {
@@ -8,15 +9,11 @@ function App() {
     <div>
       <Router>
         <Switch>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/signup">
-            <SingUp />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/login" />
-          </Route>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/user/home" component={UserScreen} />
+          <Route exact path="/user/profile" component={UserScreen} />
+          <Route exact path="/" render={() => <Redirect to="/login" />} />
         </Switch>
       </Router>
     </div>

@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import Navbar from '../Navbar/Navbar';
+import axios from 'axios';
+import NavbarBtns from '../NavbarBtns/NavbarBtns';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,13 +55,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingUp() {
+//Click Handlers
+
+export default function SignUp(props) {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
+  const [name_, setName_] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let temp = {}
+    temp.name = name_ ? ""  : "This field is required";
+    temp.email = email ? (/$^|.+@.+..+/).test(email) ? "" : "Email is not valid" : "This field is required";
+    temp.password = password ? confirmPass ? password === confirmPass ? "" : "Passwords doesn't match" : "" : "This field is required";
+    temp.confirmPass = confirmPass ? password ?  password === confirmPass ? "" : "Passwords doesn't match" : "" : "This field is required";
+    setErrors({...temp});
+    return Object.values(temp).every(x => x === "")
+  }
+
+  const signupSubmit = (e) => {
+    e.preventDefault();
+    if(validate()){
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/new`, {"name" : name_, "email": email, "password": password, "role" : "USER"}).then((res) => {
+        if(res.data.status){
+          props.history.push('/login');
+        }else{
+          alert('User With this Email already exists')
+        }
+      })
+    }
+  }
 
   return (
     <div>
-      <Navbar />
+      <Navbar navbarBtns={NavbarBtns} title={process.env.REACT_APP_TITLE}/>
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -71,7 +103,7 @@ export default function SingUp() {
             <Typography component="h1" variant="h4">
               Sign Up
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={signupSubmit}>
                 <TextField 
                     variant="outlined"
                     margin="normal"
@@ -81,6 +113,9 @@ export default function SingUp() {
                     label="Name"
                     name="name"
                     autoComplete="name"
+                    value={name_}
+                    onChange={(e) => setName_(e.target.value)}
+                    {...(errors.name && {error: true, helperText: errors.name})}
                 />
                 <TextField
                     variant="outlined"
@@ -91,6 +126,10 @@ export default function SingUp() {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    {...(errors.email && {error: true, helperText: errors.email})}
                 />
                 <TextField
                     variant="outlined"
@@ -101,7 +140,10 @@ export default function SingUp() {
                     label="Password"
                     type="password"
                     id="password"
+                    value={password}
                     autoComplete="current-password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    {...(errors.password && {error: true, helperText: errors.password})}
                 />
                 <TextField
                     variant="outlined"
@@ -111,8 +153,11 @@ export default function SingUp() {
                     name="password"
                     label="Confirm Password"
                     type="password"
+                    value={confirmPass}
                     id="confirm-password"
                     autoComplete="current-password"
+                    onChange={(e) => setConfirmPass(e.target.value)}
+                    {...(errors.confirmPass && {error: true, helperText: errors.confirmPass})}
                 />
                 <FormControlLabel
                     control={
@@ -137,11 +182,11 @@ export default function SingUp() {
                 </Button>
                 <Typography component="p">
                     Already a User?
-                    <LinkTo to="/login" >
-                        <Link variant="body1">
-                            {" Login"}
-                        </Link>
-                    </LinkTo>
+                    <Link variant="body1">
+                      <LinkTo to="/login" >
+                              {" Login"}
+                      </LinkTo>
+                    </Link>
                 </Typography>
                 </form>
             </div>
