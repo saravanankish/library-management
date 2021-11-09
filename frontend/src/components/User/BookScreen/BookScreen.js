@@ -1,7 +1,24 @@
 import Grid from '@material-ui/core/Grid';
-import BookCard from "../Card/Card";
+import BookCard from "../../Card/Card";
 import { makeStyles } from '@material-ui/core/styles';
 import BooksList from './content';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+
+const Action = ({message}) => {
+    return(
+        <CardActions>
+            <Button size="small" color="primary">
+                Request
+            </Button>
+            <Typography variant="body2" component="p">
+                {message}
+            </Typography>
+      </CardActions>
+    )
+}
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       padding: theme.spacing(3),
     },
-  }));
+}));
 
 export default function BookScreen(props){
     const classes = useStyles();
@@ -36,6 +53,7 @@ export default function BookScreen(props){
                                         description={book.description} 
                                         author={book.author} 
                                         publishedDate={book.publishedDate}
+                                        action={<Action message={book.message}/>}
                                     />
                                 </Grid>
                             )

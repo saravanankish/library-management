@@ -1,24 +1,35 @@
 import MiniDrawer from "../Minidrawer/MiniDrawer";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import BookScreen from "./BookScreen/BookScreen";
 import { makeStyles } from "@material-ui/core";
-import Profile from "./Profile/Profile";
 import HomeIcon from '@material-ui/icons/Home';
+import AdminBookScreen from "./AdminBookScreen/AdminBookScreen";
+import AddBook from "./AddBook/AddBook";
 import Badge from '@material-ui/core/Badge';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexGrow: 1
+      },
+}));
 
-export default function UserScreen(props){
+
+export default function AdminScreen(props){
     const paths = [
         {
-            path: "/user/home",
-            component:  <BookScreen {...props} />
+            path: "/admin/home",
+            component: <AdminBookScreen {...props} />
         },
         {
-            path: "/user/profile",
-            component: <Profile {...props}/>
+            path: "/admin/addBook",
+            component: <AddBook btn={"Add Book"} title={"Add Book"}/>
+        },
+        {
+            path: "/admin/editBook",
+            component: <AddBook btn={"Save Changes"} title={"Edit Book"}/>
         }
     ]
 
@@ -27,24 +38,24 @@ export default function UserScreen(props){
             name: "Home",
             icon: <HomeIcon />,
             function: () => {
-                props.history.push('/user/home')
+                props.history.push('/admin/home')
             }
         },
         {
-            name: "Profile",
-            icon: <AccountCircleIcon />,
+            name: "Add Books",
+            icon: <AddCircleIcon />,
             function: () => {
-                props.history.push('/user/profile')
+                props.history.push('/admin/addBook')
             }
         },
         {
-            name: "Notifications",
-            icon: <Badge badgeContent={4} color="primary"><NotificationsActiveIcon /></Badge>,
+            name: "Requests",
+            icon: <Badge badgeContent={4} color="primary"><AssignmentReturnedIcon /></Badge>,
             function: () => {}
         },
         {
-            name: "Request",
-            icon: <AssignmentReturnedIcon />,
+            name: "Book Info",
+            icon: <AssessmentIcon />,
             function: () => {}  
         },
     ]
@@ -61,24 +72,16 @@ export default function UserScreen(props){
         }
     ]
 
-
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            display: 'flex',
-            flexGrow: 1
-          },
-    }));
-
     const classes = useStyles();
 
-    return(
+    return(   
         <div className={classes.root}>
-            <MiniDrawer title={process.env.REACT_APP_TITLE} lists={userList} tools={userToolList}/>
+            <MiniDrawer title={`${process.env.REACT_APP_TITLE} Admin`} lists={userList} tools={userToolList}/>
             {
                 paths.map((res) => {
                     return props.location.pathname === res.path ? res.component : <></>
                 })
             }
         </div>
-    );
+    )
 }

@@ -85,7 +85,10 @@ export default function Login(props) {
         }else{
           localStorage.setItem('id', res.data.userId);
           localStorage.setItem('role', res.data.role);
-          props.history.push('/user/home');
+          if(res.data.role === "USER")
+            props.history.go('/user/home');
+          else if(res.data.role === "ADMIN")
+            props.history.go('/admin/home');
         }
       })
     }

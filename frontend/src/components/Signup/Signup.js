@@ -16,6 +16,7 @@ import HowToRegIcon from '@material-ui/icons/HowToReg';
 import Navbar from '../Navbar/Navbar';
 import axios from 'axios';
 import NavbarBtns from '../NavbarBtns/NavbarBtns';
+import { Redirect } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,8 +79,9 @@ export default function SignUp(props) {
 
   const signupSubmit = (e) => {
     e.preventDefault();
+    const role = props.match.params.admin === "admin" ? "ADMIN" : "USER";
     if(validate()){
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/new`, {"name" : name_, "email": email, "password": password, "role" : "USER"}).then((res) => {
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/new`, {"name" : name_, "email": email, "password": password, "role" : role}).then((res) => {
         if(res.data.status){
           props.history.push('/login');
         }else{
@@ -89,7 +91,8 @@ export default function SignUp(props) {
     }
   }
 
-  return (
+  if(props.match.params.admin == null ||  props.match.params.admin === "admin"){
+    return (
     <div>
       <Navbar navbarBtns={NavbarBtns} title={process.env.REACT_APP_TITLE}/>
       <Grid container component="main" className={classes.root}>
@@ -191,7 +194,9 @@ export default function SignUp(props) {
                 </form>
             </div>
         </Grid>
-      </Grid>
+      </Grid>     
     </div>
-  );
+    )}else{
+      return <Redirect to="/signup" />
+    }
 }
