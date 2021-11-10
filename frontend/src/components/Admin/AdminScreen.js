@@ -1,13 +1,14 @@
 import MiniDrawer from "../Minidrawer/MiniDrawer";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AssignmentReturnedIcon from '@material-ui/icons/AssignmentReturned';
-import AssessmentIcon from '@material-ui/icons/Assessment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { makeStyles } from "@material-ui/core";
 import HomeIcon from '@material-ui/icons/Home';
 import AdminBookScreen from "./AdminBookScreen/AdminBookScreen";
 import AddBook from "./AddBook/AddBook";
-import Badge from '@material-ui/core/Badge';
+import AdminRequest from "./Requests/AdminRequests";
+
+// import AssessmentIcon from '@material-ui/icons/Assessment';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,11 +26,15 @@ export default function AdminScreen(props){
         },
         {
             path: "/admin/addBook",
-            component: <AddBook btn={"Add Book"} title={"Add Book"}/>
+            component: <AddBook btn={"Add Book"} title={"Add Book"} {...props}/>
         },
         {
             path: "/admin/editBook",
-            component: <AddBook btn={"Save Changes"} title={"Edit Book"}/>
+            component: <AddBook btn={"Save Changes"} title={"Edit Book"}  {...props}/>
+        },
+        {
+            path: "/admin/requests",
+            component: <AdminRequest {...props} />
         }
     ]
 
@@ -50,14 +55,16 @@ export default function AdminScreen(props){
         },
         {
             name: "Requests",
-            icon: <Badge badgeContent={4} color="primary"><AssignmentReturnedIcon /></Badge>,
-            function: () => {}
+            icon: <AssignmentReturnedIcon />,
+            function: () => {
+                props.history.push('/admin/requests')
+            }
         },
-        {
-            name: "Book Info",
-            icon: <AssessmentIcon />,
-            function: () => {}  
-        },
+        // {
+        //     name: "Book Info",
+        //     icon: <AssessmentIcon />,
+        //     function: () => {}  
+        // },
     ]
 
     const userToolList = [
@@ -78,9 +85,7 @@ export default function AdminScreen(props){
         <div className={classes.root}>
             <MiniDrawer title={`${process.env.REACT_APP_TITLE} Admin`} lists={userList} tools={userToolList}/>
             {
-                paths.map((res) => {
-                    return props.location.pathname === res.path ? res.component : <></>
-                })
+                paths.filter(r => r.path === props.location.pathname)[0].component
             }
         </div>
     )

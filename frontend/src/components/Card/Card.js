@@ -53,7 +53,7 @@ export default function BookCard(props) {
             {props.title}
           </Typography>
           <Typography gutterBottom variant="body2" component="p">
-            {props.author} | {props.publishedDate}
+            by {props.author} | {props.publishedDate}
           </Typography>
           <Typography variant="caption" color="textSecondary" component="p" className={classes.description}>
             {props.description}

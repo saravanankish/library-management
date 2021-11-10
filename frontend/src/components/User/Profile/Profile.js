@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile(props){
     const classes = useStyles();
     const [user, setUser] = useState({});
-    console.log(localStorage.getItem('id'))
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/get/${localStorage.getItem("id")}`).then((res) => {
             setUser(res.data);
@@ -92,8 +91,11 @@ export default function Profile(props){
                             <Typography color="textSecondary" component="h3" variant="h3">
                                 {user.name}
                             </Typography>
-                            <Typography variant="subtitle1" component="h1">
+                            <Typography variant="h6" component="h1">
                                 {user.email}
+                            </Typography>
+                            <Typography variant="body1" component="h1" style={{fontSize: "18px"}} color="secondary">
+                                Fine: Rs. {user.fine}
                             </Typography>
                             <Button variant="contained" color="primary" className={classes.button} onClick={() => props.history.push('/user/home')}>Browse Books</Button>
                         </CardContent>
@@ -111,7 +113,7 @@ export default function Profile(props){
                         </CardContent>
                         <Grid container spacing={2} className={classes.grid}>
                             {itemData.map((item) => (
-                                <Grid item xs={12} md={6} lg={3} xl={2}>
+                                <Grid item xs={12} md={6} lg={3} xl={2} key={item.imageUrl}>
                                     <ImageListItem className={classes.itemList} key={item.imageUrl}>
                                         <img src={item.imageUrl} alt={item.title} className={classes.image}/>
                                         <ImageListItemBar

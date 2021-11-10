@@ -9,7 +9,7 @@ const books = [
     },
     {
         title: "The Gita",
-        author: "by Anant Pai",
+        author: "by     ",
         description: "The Gita or The Bhagavad Gita is a philosophical exposition that was presented by Lord Krishna. It is in the form of a dialogue between Krishna and his close friend Arjuna. This conversation took place in the middle of a battlefield with the two sides arrayed for war.",
         imageUrl: "https://m.media-amazon.com/images/I/81TeXefBnGL._AC_UL480_QL65_.jpg",
         publishedDate: "Sep 2014",

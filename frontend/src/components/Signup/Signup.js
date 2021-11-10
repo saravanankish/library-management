@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Link as LinkTo } from 'react-router-dom';
@@ -185,11 +184,9 @@ export default function SignUp(props) {
                 </Button>
                 <Typography component="p">
                     Already a User?
-                    <Link variant="body1">
-                      <LinkTo to="/login" >
-                              {" Login"}
-                      </LinkTo>
-                    </Link>
+                    <LinkTo to="/login" >
+                            {" Login"}
+                    </LinkTo>
                 </Typography>
                 </form>
             </div>

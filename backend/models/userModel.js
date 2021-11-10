@@ -16,6 +16,16 @@ const UserSchema = mongoose.Schema({
     role: {
         type: String,
         required: true
+    },
+    request: {
+        type: Array
+    },
+    books: {
+        type: Array,
+    },
+    fine: {
+        type: Number,
+        default: 0
     }
     // email_verified: {
     //     type: Boolean,

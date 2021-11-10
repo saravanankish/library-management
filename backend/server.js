@@ -9,6 +9,7 @@ require('dotenv').config();
 const signupRoute = require('./routes/signupRoute');
 const loginRoute = require('./routes/loginRoute');
 const userRoute = require('./routes/userRoutes');
+const adminRoute = require('./routes/adminRoute');
 
 const app = express();
 
@@ -20,8 +21,8 @@ const port = process.env.PORT || 9000;
 
 
 //DB connection
-const connection_url = "mongodb+srv://admin:PDpCbsXHBhoYJIY1@cluster0.sn8id.mongodb.net/LibraryManager?retryWrites=true&w=majority"
-mongoose.connect(connection_url, {
+
+mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log("DB connection established"))
@@ -31,6 +32,7 @@ mongoose.connect(connection_url, {
 app.use('/', signupRoute);
 app.use('/', loginRoute);
 app.use('/', userRoute);
+app.use('/', adminRoute);
 
 app.listen(port, () => {
     console.log(`Listening to localhost:${port}`);

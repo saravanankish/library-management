@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import { Link as LinkTo } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -71,7 +70,6 @@ export default function Login(props) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log('clicked')
     if(validate()){
       axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/login`, {"email": email,"password": password}).then((res) => {
         if(!res.data.authorised){
@@ -160,9 +158,7 @@ export default function Login(props) {
               <Typography component="p">
                   New User?
                   <LinkTo to="/signup" >
-                    <Link  variant="body1">
-                        {" Sign Up"}
-                    </Link>
+                    {" Sign Up"}
                   </LinkTo>
               </Typography>
             </form>
